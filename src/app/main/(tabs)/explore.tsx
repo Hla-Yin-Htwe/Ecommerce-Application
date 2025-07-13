@@ -23,7 +23,6 @@ export default function Explore() {
               style={{ width: 150, height: 150, borderRadius: 8 }}
             />
 
-
           </View>
         )}
       />

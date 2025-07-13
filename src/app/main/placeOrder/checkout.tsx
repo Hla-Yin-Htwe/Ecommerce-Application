@@ -1,0 +1,84 @@
+import { CartItem } from '@/hooks/CartContext';
+import { BackWardButton } from '@/src/components/ui/BackWardButton';
+import { useLocalSearchParams } from 'expo-router';
+import { useRouter } from 'expo-router';
+import React, { useMemo } from 'react'
+import { FlatList, Text, TextInput, TextInputBase, TouchableOpacity, View } from 'react-native'
+
+const Checkout = () => {
+    const router = useRouter();
+    const { cart } = useLocalSearchParams();
+    // Parse the cart param (it will be a string)
+    const cartItems: CartItem[] = useMemo(() => {
+        try {
+            return cart ? JSON.parse(cart as string) : [];
+        } catch {
+            return [];
+        }
+    }, [cart]);
+
+    const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    const deliveryFee = 2000; // Example delivery fee
+    const grandTotal = totalPrice + deliveryFee;
+
+    return (
+        <View>
+            <BackWardButton title='Checkout' />
+
+            <View className='bg-white-200 rounded-xl mb-3'>
+                <Text className='text-xl text-gray-700 font-bold ml-3'>Delivery Information</Text>
+
+                <Text className='text-gray-700 px-4 py-3 font-medium'>Full Name</Text>
+                <TextInput
+                    placeholder='Enter your name'
+                    className='mx-4 flex py-3 border border-gray-400 '
+                />
+
+                <Text className='text-gray-700 px-4 py-3 font-medium'>Phone Number</Text>
+                <TextInput
+                    placeholder='Enter your phone number'
+                    className='mx-4 flex py-3 border border-gray-400 '
+                />
+                <Text className='text-gray-700 px-4 py-3 font-medium'>Address</Text>
+                <TextInput
+                    placeholder='Enter your address'
+                    className='mx-4 flex py-3 border border-gray-400 '
+                />
+            </View>
+            <View className='bg-gray-200 rounded-xl mb-3 mt-3'>
+                <Text className='text-xl text-gray-700 font-bold ml-3'>Order Summary</Text>
+
+
+                <View className='flex flex-row justify-between items-center'>
+                    <Text className='text-gray-700 px-4 py-3 font-medium'>
+                        Items Total
+                        <Text className='text-gray-500'>({cartItems.reduce((sum, item) => sum + item.quantity, 0)} items)</Text>
+                    </Text>
+                    <Text className='text-gray-700 px-4 py-3 font-medium mr-3'>  {totalPrice} Ks</Text>
+                </View>
+                <View className='flex flex-row justify-between'>
+                    <Text className='text-gray-700 px-4 py-3 font-medium '>Delivery Fee</Text>
+                    <Text className='text-gray-700 px-4 py-3 font-medium mr-3'>{deliveryFee} Ks</Text>
+                </View>
+                <View className='border-t border-gray-400 mx-4 my-1' />
+                <View className='flex flex-row justify-between '>
+                    <Text className='text-gray-700 px-4 py-3 font-medium'>Total</Text>
+                    <Text className='text-gray-700 px-4 py-3 font-medium mr-3'> {grandTotal} Ks</Text>
+                </View>
+            </View>
+
+
+            <View className='flex flex-row justify-center rounded-2xl  gap-3 mt-3 '>
+                <TouchableOpacity
+                    // onPress={() => router.push("/main/placeOrder/checkout")}
+                                       
+                    className='bg-fuchsia-800 rounded-lg w-[100] '>
+                <Text className='text-white px-3 py-3 font-medium text-center' >Place Order</Text>
+            </TouchableOpacity>
+        </View>
+        </View >
+    )
+}
+
+export default Checkout
+

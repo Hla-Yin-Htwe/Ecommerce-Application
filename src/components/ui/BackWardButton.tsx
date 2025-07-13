@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 interface BackWardButtonProp {
   title: string;
@@ -17,6 +17,7 @@ export const BackWardButton: React.FC<BackWardButtonProp> = ({ title }) => {
         <Ionicons name="chevron-back" size={24} color="black" />
       </TouchableOpacity>
       <Text className="font-medium text-xl">{title}</Text>
+      
     </View>
   );
 };

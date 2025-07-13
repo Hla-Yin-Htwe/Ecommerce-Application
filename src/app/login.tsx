@@ -1,38 +1,39 @@
 import { Button } from "@react-navigation/elements";
 import { Link, useRouter } from 'expo-router';
-import * as SecureStore from 'expo-secure-store';
-import React, { useState } from 'react';
-import { Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useContext, useState } from 'react';
+import { Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useSession } from "../context/AuthContext";
 
 const LoginScreen = ({ }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState<string>('hyh@gmail.com');
+    const [password, setPassword] = useState<string>('123456');
+    const [loading, setLoading] = useState<boolean>(false)
 
-    // sample credentials
-    const sampleEmail = 'hyh@gmail.com';
-    const samplePassword = '123456';
+
+    const { login } = useSession();
+
     const router = useRouter();
 
 
 
 
-    const handleLogin = async () => {
+    const handleLogin = async (data: any) => {
+        const sampleEmail = 'hyh@gmail.com';
+        const samplePassword = '123456';
+
         if (email === sampleEmail && password === samplePassword) {
-            // Save fake token in SecureStore
-            await SecureStore.setItemAsync('userToken', '123456');
-            Alert.alert('Login Success', 'Welcome!');
-
-            // router.replace("/main/(topTab)/Home/homePage");
-
-
+            // console.log('login  pressed')
+            await login(email, password)
+            Alert.alert('Login Success');
         } else {
             Alert.alert('Login Failed', 'Incorrect email or password');
         }
     };
 
+
+
     return (
-        <SafeAreaView style={styles.container}  >
+        <View style={styles.container}  >
             <ImageBackground source={require("@/src/assets/images/flowerPot.jpg")}
                 resizeMode="cover"
                 style={styles.image}>
@@ -63,7 +64,7 @@ const LoginScreen = ({ }) => {
                     </TouchableOpacity>
                 </Link>
             </ImageBackground>
-        </SafeAreaView>
+        </View>
     );
 }
 

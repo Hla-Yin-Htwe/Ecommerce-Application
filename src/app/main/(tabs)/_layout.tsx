@@ -5,13 +5,13 @@ export default function TabLayout() {
   return (
     <Tabs screenOptions={({ route }) => ({
       headerShown: false,
-      tabBarActiveTintColor: '#007AFF',
+      tabBarActiveTintColor: '#a21caf',
       tabBarInactiveTintColor: 'gray',
       tabBarIcon: ({ focused, color, size }) => {
         let iconName: keyof typeof Ionicons.glyphMap;
 
         switch (route.name) {
-          case 'index':
+          case 'home':
             iconName = focused ? 'home' : 'home-outline';
             break;
           case 'explore':
@@ -33,7 +33,7 @@ export default function TabLayout() {
         return <Ionicons name={iconName} size={size} color={color} />;
       },
     })}>
-      <Tabs.Screen name="index" options={{ title: 'Home' }} />
+      <Tabs.Screen name="home" options={{ title: 'Home' }} />
       <Tabs.Screen name="explore" options={{ title: 'Explore' }} />
       <Tabs.Screen name="cart" options={{ title: 'Cart' }} />
       <Tabs.Screen name="notification" options={{ title: 'Notification' }} />

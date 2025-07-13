@@ -30,7 +30,7 @@ export default function HomeScreen() {
         />
       </TouchableOpacity>
 
-      <Text className="text-sm text-purple-900 mt-2">$ {item.price}</Text>
+      <Text className="text-sm text-purple-900 mt-2">MMK {item.price}</Text>
       <Text className="text-base text-gray-900">{item.title}</Text>
     </View>
   );

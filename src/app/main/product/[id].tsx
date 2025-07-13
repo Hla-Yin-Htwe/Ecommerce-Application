@@ -1,8 +1,9 @@
-import { useLocalSearchParams } from "expo-router";
-import { Text, View, Image, ScrollView } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import { Text, View, Image, ScrollView, TouchableOpacity } from "react-native";
 import localData from "../../../data/db.json";
 import { BackWardButton } from "@/src/components/ui/BackWardButton";
 import AddtoCart from "@/src/components/ui/AddtoCart";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function ProductDetail() {
     const { id } = useLocalSearchParams();
@@ -23,7 +24,14 @@ export default function ProductDetail() {
     return (
         <View className="flex-1 px-4">
             <ScrollView className="flex-1 p-4">
-                <BackWardButton title="Product Details" />
+                <View className="flex-row items-center mb-4">
+                    <BackWardButton title="Product Details" />
+                    <TouchableOpacity
+                        className="flex justify-end mr-auto"
+                        onPress={() => router.push('/main/(tabs)/cart')}>
+                        <FontAwesome name="shopping-cart" size={24} color="orange" />
+                    </TouchableOpacity>
+                </View>
 
                 <Image
                     source={{ uri: product.images?.[0] }}
@@ -37,7 +45,7 @@ export default function ProductDetail() {
 
             </ScrollView>
 
-            <AddtoCart productId={product.id} />
+            <AddtoCart product={product} />
 
         </View>
 
