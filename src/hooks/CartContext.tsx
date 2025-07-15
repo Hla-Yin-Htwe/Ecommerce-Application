@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { ProductType } from '@/src/types/type';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Cart item includes quantity
 export type CartItem = ProductType & { quantity: number };
@@ -29,6 +30,10 @@ type CartProviderProps = { children: ReactNode };
 
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  const storeToStorage=async (items: CartItem[]) => {
+    await AsyncStorage.setItem('cartItems', JSON.stringify(items));
+  };
 
   const incrementQuantity = (id: number) => {
   setCartItems((prevItems) =>

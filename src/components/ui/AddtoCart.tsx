@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useCart } from '@/hooks/CartContext';
+import { useCart } from '@/src/hooks/CartContext';
 import { ProductType } from '@/src/types/type';
 
 type AddToCartProps = {
