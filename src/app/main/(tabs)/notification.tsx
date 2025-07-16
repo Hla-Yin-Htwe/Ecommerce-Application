@@ -5,12 +5,7 @@ import { useCounterStore } from '@/src/store/store'
 const notification = () => {
   const count=useCounterStore((state) => state.count);
   return (<OtherComponent count={count} />);
-  return (
-    <View>
-      <Text>notification</Text>
-      <Button title="0"/>
-    </View>
-  )
+  
 }
 const OtherComponent = ({ count }:{count:number}) => {
     const increment=useCounterStore((state)=>state.increment);

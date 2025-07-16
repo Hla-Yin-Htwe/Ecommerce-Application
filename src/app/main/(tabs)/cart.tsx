@@ -22,7 +22,7 @@ export default function Cart() {
     {}
   );
 
-  const toggleCheckbox = (id: string) => {
+  const toggleCheckbox = (id: number) => {
     setSelectedItems((prev) => ({
       ...prev,
       [id]: !prev[id],
