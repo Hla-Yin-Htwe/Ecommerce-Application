@@ -87,7 +87,7 @@ export default function Cart() {
 
   return (
     <View className="flex-1 p-4">
-      <BackWardButton title="My Cart ( {totalQuantity} )" />
+      <BackWardButton title="My Cart" />
 
       {/* <Text className="text-2xl font-bold mb-4">My Cart</Text> */}
       <FlatList

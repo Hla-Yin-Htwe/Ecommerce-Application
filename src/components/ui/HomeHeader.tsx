@@ -12,7 +12,7 @@ export const HomeHeader = () => {
   return (
     <View className="p-4">
       <Text className="text-2xl text-fuchsia-800 font-semibold mb-4">
-        Shop with X
+        Shop with <Text className="text-bold text-black">X</Text>
       </Text>
 
       <TouchableOpacity

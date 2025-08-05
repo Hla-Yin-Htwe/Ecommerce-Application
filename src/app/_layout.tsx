@@ -6,7 +6,9 @@ import "../../global.css";
 import { AuthProvider, useSession } from "../context/AuthContext";
 import { useRouter } from "expo-router";
 import { CartProvider } from "../hooks/CartContext";
-
+import {store} from "@/src/store/store"
+import { Provider } from "react-redux";
+import Toast from 'react-native-toast-message'
 function LayoutWrapper() {
   const colorScheme = useColorScheme();
   const router = useRouter();
@@ -28,11 +30,12 @@ function LayoutWrapper() {
 
   return(
     
-    <CartProvider>
+    <CartProvider >
       <SafeAreaProvider>
         <SafeAreaView className="flex-1">
          
           <Slot />
+          <Toast/>
         </SafeAreaView>
 
       </SafeAreaProvider>
@@ -47,10 +50,11 @@ export default function RootLayout() {
   return (
     
     
-   
+   <Provider store={store}> 
      <AuthProvider>
       <LayoutWrapper />
     </AuthProvider>
+    </Provider>
     
   )
 
