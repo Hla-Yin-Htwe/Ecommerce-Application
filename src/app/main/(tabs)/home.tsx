@@ -22,6 +22,7 @@ export default function HomeScreen() {
         onPress={() => handlePress(item.id)}
         className="rounded-lg overflow-hidden"
       >
+        
         <Image
           source={{
             uri: item.images?.[0] || 'https://via.placeholder.com/150',
