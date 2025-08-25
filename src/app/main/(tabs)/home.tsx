@@ -4,16 +4,24 @@ import { useRouter } from 'expo-router';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import localData from '../../../data/db.json';
+import { useCategoryStore } from '@/src/store/useCategoryStore';
 
 export default function HomeScreen() {
   const [isClick, setIsClick] = useState(false);
   const router = useRouter();
+const selectedCategoryId = useCategoryStore((state) => state.selectedCategoryId);  const categories = [{ id: null, name: "All" }, ...localData.categories];
+
+
 
   const handlePress = async (id: number) => {
     setIsClick(true);
     await router.push(`/main/product/${id}`);
     setIsClick(false);
   };
+      const filteredProducts = selectedCategoryId
+        ? localData.saleProducts.filter(product => product.category.id === selectedCategoryId)
+        : localData.saleProducts;
+
 
   const renderProductItem = ({ item }: { item: any }) => (
     <View className="flex-1 m-2">
@@ -30,9 +38,9 @@ export default function HomeScreen() {
           style={{ width: '100%', height: 150, borderRadius: 8 }}
         />
       </TouchableOpacity>
+      <Text className="text-base text-gray-900">{item.title}</Text>
 
       <Text className="text-sm text-purple-900 mt-2">MMK {item.price}</Text>
-      <Text className="text-base text-gray-900">{item.title}</Text>
     </View>
   );
 
@@ -42,7 +50,7 @@ export default function HomeScreen() {
       <CategoriesSection />
 
       <FlatList
-        data={localData.products}
+        data={filteredProducts} //localData.products
         keyExtractor={(item) => item.id.toString()}
         numColumns={2} 
         showsVerticalScrollIndicator={false}
