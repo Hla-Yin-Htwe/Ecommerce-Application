@@ -15,7 +15,7 @@ export default function Profile() {
   const { userToken } = useSession();
   return (
     <View className="flex-1 bg-stone-50">
-      <View className="bg-fuchsia-800 flex-row justify-between rounded-b-3xl px-6 py-5 rounded-t-3xl items-center">
+      {/* <View className="bg-fuchsia-800 flex-row justify-between rounded-b-3xl px-6 py-5 rounded-t-3xl items-center">
         <View>
           <Text className="text-white text-2xl font-bold">
             Welcome to Shop With X
@@ -27,20 +27,30 @@ export default function Profile() {
         >
           <MaterialIcons name="notifications" size={24} color="white" />
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <Text className="text-gray text-2xl font-bold">{userToken}</Text>
+      <TouchableOpacity className="text-gray text-sm">
+        View Profile
+      </TouchableOpacity>
       <TouchableOpacity
         className="mt-5 mx-4 p-4 bg-white rounded-lg shadow-md flex-row items-center gap-2"
         onPress={() => router.push("/main/(tabs)/home")}
       >
         <MaterialIcons name="shopping-cart-checkout" size={20} color="black" />
-        <Text>My Order</Text>
+        <Text>Orders</Text>
       </TouchableOpacity>
+      
       <TouchableOpacity
         className="mt-3 mx-4 p-4 bg-white rounded-lg shadow-md flex-row items-center gap-2"
-        onPress={() => router.push("/main/(tabs)/home")}
+        onPress={() =>
+          router.push({
+            pathname: "/main/placeOrder/favourite",
+            params: { favorites: JSON.stringify(favorites) },
+          })
+        }
       >
         <MaterialCommunityIcons name="account" size={20} color="black" />
-        <Text>Account Information</Text>
+        <Text>Favourites</Text>
       </TouchableOpacity>
       <TouchableOpacity
         className="mt-3 mx-4 p-4 bg-white rounded-lg shadow-md flex-row items-center gap-2"
@@ -64,7 +74,7 @@ export default function Profile() {
         <Text>Feedback</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        className="mt-5 mx-4 p-4 bg-white rounded-lg shadow-md flex-row items-center gap-2"
+        className="mt-5  p-4 bg-white rounded-lg shadow-md flex-row items-center"
         onPress={handleLogout}
       >
         <MaterialIcons name="logout" size={20} color="red" />

@@ -1,54 +1,43 @@
-// import { View, Text, Button } from "react-native";
-// import React from "react";
-// import { useCounterStore } from "@/src/store/store";
+import { BackWardButton } from "@/src/components/ui/BackWardButton";
+import NotificationListCard from "@/src/components/ui/NotificationListCard";
+// import { PageLoadingModal } from "@/src/components/ui/PageLoadingModal";
+import React, { useState, useEffect } from "react";
+import { ScrollView, View } from "react-native";
+import localData from "../../../data/db.json";
 
-// const notification = () => {
-//   const count = useCounterStore((state) => state.count);
-//   return <OtherComponent count={count} />;
-// };
-// const OtherComponent = ({ count }: { count: number }) => {
-//   const increment = useCounterStore((state) => state.increment);
-//   const decrement = useCounterStore((state) => state.decrement);
+const NotificationScreen = () => {
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [pageLoading, setPageLoading] = useState<boolean>(true);
 
-//   return (
-//     // <View className="flex-1 items-center justify-center ">
-//     //   <Text>Your Counter</Text>
-//     //   <Text className="text-2xl font-bold">{count}</Text>
-//     //   <View className="flex-row gap-2">
-//     //     <Button title="Increment" onPress={increment} />
-//     //     <Button title="Decrement" onPress={decrement} />
-//     //     {/* <button onClick={() => console.log('Button clicked!')}>Click Me</button>   */}
-//     //   </View>
-//     //   <Text className="text-sm text-gray-500 mt-2">
-//     //     This is a notification component
-//     //   </Text>
-//     // </View>
-//     <View>
-//       <Text>Hi</Text>
-//     </View>
-//   );
-// };
+  useEffect(() => {
+    // Simulate fetching from db.json
+    setNotifications(localData.notifications);
+    setPageLoading(false);
+  }, []);
 
-// export default notification;
-// Counter.tsx
-import { View, Text, Button } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux'
-import { increment, decrement } from "@/src/store/counterSlice"
-import type { RootState, AppDispatch } from "@/src/store/store"
-
-
-const Counter = () => {
-  const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch<AppDispatch>();
+  if (pageLoading) {
+    return (
+      <View className="flex-1 justify-center items-center bg-stone-100 dark:bg-black">
+        {/* <PageLoadingModal visible={pageLoading} /> */}
+      </View>
+    );
+  }
 
   return (
-    <View style={{ alignItems: 'center', marginTop: 100 }}>
-      <Text style={{ fontSize: 24 }}>Counter: {count}</Text>
-      <Button title="Increment" onPress={() => dispatch(increment())} />
-      <Button title="Decrement" onPress={() => dispatch(decrement())} />
+    <View className="flex-1 bg-stone-50 dark:bg-black">
+      <BackWardButton title="Notification" />
+      <ScrollView contentContainerClassName="p-4 pb-10">
+        {notifications.map((notification) => (
+          <NotificationListCard
+            key={notification.id}
+            title={notification.title}        
+            message={notification.message}    
+            timestamp={notification.timestamp}
+          />
+        ))}
+      </ScrollView>
     </View>
   );
 };
 
-export default Counter;
-
+export default NotificationScreen;

@@ -12,7 +12,7 @@
       ],
       "category": {
         "id": 3,
-        "name": "nuevo",
+        "name": "Furniture",
         "image": "https://i.imgur.com/Qphac99.jpeg"
       }
     },
@@ -28,7 +28,7 @@
       ],
       "category": {
         "id": 3,
-        "name": "nuevo",
+        "name": "Furniture",
         "image": "https://i.imgur.com/Qphac99.jpeg"
       }
     },
@@ -44,7 +44,7 @@
       ],
       "category": {
         "id": 3,
-        "name": "nuevo",
+        "name": "Furniture",
         "image": "https://i.imgur.com/Qphac99.jpeg"
       }
     },
@@ -60,7 +60,7 @@
       ],
       "category": {
         "id": 3,
-        "name": "nuevo",
+        "name": "Furniture",
         "image": "https://i.imgur.com/Qphac99.jpeg"
       }
     },
@@ -76,7 +76,7 @@
       ],
       "category": {
         "id": 3,
-        "name": "nuevo",
+        "name": "Furniture",
         "image": "https://i.imgur.com/Qphac99.jpeg"
       }
     },
@@ -91,7 +91,7 @@
       ],
       "category": {
         "id": 3,
-        "name": "nuevo",
+        "name": "Furniture",
         "image": "https://i.imgur.com/Qphac99.jpeg"
       }
     },
@@ -172,7 +172,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -188,7 +188,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -204,7 +204,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -220,7 +220,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -236,7 +236,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -251,7 +251,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -267,7 +267,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -283,7 +283,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -299,7 +299,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -315,7 +315,7 @@
       ],
       "category": {
         "id": 1,
-        "name": "nuevo",
+        "name": "Clothes",
         "image": "https://i.imgur.com/QkIa5tT.jpeg"
       }
     },
@@ -475,8 +475,30 @@
       ],
       "category": {
         "id": 3,
-        "name": "nuevo",
+        "name": "Furniture",
         "image": "https://i.imgur.com/Qphac99.jpeg"
+      }
+    },
+    {
+      "id": 39,
+      "title": "Elegant Diamond Necklace",
+      "price": 1999,
+      "images": ["https://example.com/jewellery.png"],
+      "category": {
+        "id": 5,
+        "name": "Jewellery",
+        "image": "https://pngimagesfree.com/wp-content/uploads/Gold-Jewellery-Necklaces-PNG@.png"
+      }
+    },
+    {
+      "id": 40,
+      "title": "Stylish Misc Decor Item",
+      "price": 49,
+      "images": ["https://example.com/misc.png"],
+      "category": {
+        "id": 6,
+        "name": "Miscellaneous",
+        "image": "https://i.imgur.com/BG8J0Fj.jpg"
       }
     }
   ],
@@ -532,7 +554,7 @@
       "title": "Sleek Smartwatch with Vibrant Display",
       "price": 16,
       "quantity": 1,
-      "image":  "https://i.imgur.com/LGk9Jn2.jpeg"
+      "image": "https://i.imgur.com/LGk9Jn2.jpeg"
     }
   ],
   "notifications": [
@@ -544,8 +566,8 @@
     },
     {
       "id": 2,
-      "title": "Payment Received",  
-      "message": "Your payment has been successfully received.",  
+      "title": "Payment Received",
+      "message": "Your payment has been successfully received.",
       "timestamp": "4 hours ago"
     },
     {

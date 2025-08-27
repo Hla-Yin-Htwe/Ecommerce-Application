@@ -5,9 +5,11 @@ import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import localData from "../../../data/db.json";
 import { useCategoryStore } from "@/src/store/useCategoryStore";
+import { AntDesign } from "@expo/vector-icons"; // import icons
 
 export default function HomeScreen() {
   const [isClick, setIsClick] = useState(false);
+  const [favorites, setFavorites] = useState<number[]>([]); // track favorite items
   const router = useRouter();
   const selectedCategoryId = useCategoryStore(
     (state) => state.selectedCategoryId
@@ -19,31 +21,64 @@ export default function HomeScreen() {
     await router.push(`/main/product/${id}`);
     setIsClick(false);
   };
+
+  const allProducts = [...localData.products, ...localData.saleProducts];
+
   const filteredProducts = selectedCategoryId
-    ? localData.saleProducts.filter(
-        (product) => product.category.id === selectedCategoryId
+    ? allProducts.filter(
+        (product) => product.category?.id === selectedCategoryId
       )
-    : localData.saleProducts;
+    : allProducts;
 
-  const renderProductItem = ({ item }: { item: any }) => (
-    <View className="flex-1 m-2">
-      <TouchableOpacity
-        disabled={isClick}
-        onPress={() => handlePress(item.id)}
-        className="rounded-lg overflow-hidden"
-      >
-        <Image
-          source={{
-            uri: item.images?.[0] || "https://via.placeholder.com/150",
-          }}
-          style={{ width: "100%", height: 150, borderRadius: 8 }}
-        />
-      </TouchableOpacity>
-      <Text className="text-base text-gray-900">{item.title}</Text>
+  const toggleFavorite = (id: number) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
+    );
+  };
 
-      <Text className="text-sm text-purple-900 mt-2">MMK {item.price}</Text>
-    </View>
-  );
+  const renderProductItem = ({ item }: { item: any }) => {
+    const isFavorite = favorites.includes(item.id);
+
+    return (
+      <View className="flex-1 m-2">
+        <View className="relative rounded-lg overflow-hidden">
+          <TouchableOpacity
+            disabled={isClick}
+            onPress={() => handlePress(item.id)}
+          >
+            <Image
+              source={{
+                uri: item.images?.[0] || "https://via.placeholder.com/150",
+              }}
+              style={{ width: "100%", height: 150, borderRadius: 8 }}
+            />
+          </TouchableOpacity>
+
+          {/* Favorite Icon */}
+          <TouchableOpacity
+            onPress={() => toggleFavorite(item.id)}
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              // backgroundColor: "rgba(255,255,255,0.7)",
+              borderRadius: 20,
+              padding: 4,
+            }}
+          >
+            <AntDesign
+              name={isFavorite ? "heart" : "hearto"}
+              size={20}
+              color={isFavorite ? "red" : "gray"}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <Text className="text-base text-gray-900 mt-2">{item.title}</Text>
+        <Text className="text-sm text-purple-900 mt-1">MMK {item.price}</Text>
+      </View>
+    );
+  };
 
   return (
     <View className="flex-1 px-4">
@@ -51,7 +86,7 @@ export default function HomeScreen() {
       <CategoriesSection />
 
       <FlatList
-        data={filteredProducts} //localData.products
+        data={filteredProducts}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         showsVerticalScrollIndicator={false}

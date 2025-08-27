@@ -1,12 +1,7 @@
 import { BackWardButton } from "@/src/components/ui/BackWardButton";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { CartItem } from "../../../hooks/CartContext";
 
 const Checkout = () => {
@@ -28,13 +23,11 @@ const Checkout = () => {
   const deliveryFee = 2000;
   const grandTotal = total ? parseFloat(total as string) + deliveryFee : 0;
 
-  
-
   return (
     <View>
       <BackWardButton title="Checkout" />
 
-      <View className="bg-white-200 rounded-xl mb-3">
+      {/* <View className="bg-white-200 rounded-xl mb-3">
         <Text className="text-xl text-gray-700 font-bold ml-3">
           Delivery Information
         </Text>
@@ -50,7 +43,7 @@ const Checkout = () => {
         </Text>
         <TextInput
           placeholder="Enter your phone number"
-          className="mx-4 flex py-3 border border-gray-400 "
+          className="mx-4 flex py-3 border border-gray-400"
         />
         <Text className="text-gray-700 px-4 py-3 font-medium">Email</Text>
 
@@ -63,16 +56,16 @@ const Checkout = () => {
           placeholder="Enter your address"
           className="mx-4 flex py-3 border border-gray-400 "
         />
-      </View>
+      </View> */}
       <View className="bg-gray-200 rounded-xl mb-3 mt-3">
-        <Text className="text-xl text-gray-700 font-bold ml-3">
+        <Text className="text-xl text-gray-700 font-bold ml-3 p-2">
           Order Summary
         </Text>
 
         <View className="flex flex-row justify-between items-center">
           <Text className="text-gray-700 px-4 py-3 font-medium">
             Items Total
-            <Text className="text-gray-500"> ({quantity} items) </Text> 
+            <Text className="text-gray-500"> ({quantity} items) </Text>
           </Text>
           <Text className="text-gray-700 px-4 py-3 font-medium mr-3">
             {total} Ks
@@ -98,7 +91,17 @@ const Checkout = () => {
       <View className="flex flex-row justify-center rounded-2xl  gap-3 mt-3 ">
         <TouchableOpacity
           // onPress={() => router.push("/main/placeOrder/checkout")}
-  
+          onPress={() =>
+            router.push({
+              pathname: "/main/placeOrder/payment",
+              params: {
+                total: grandTotal.toString(),
+                cart: JSON.stringify(cartItems),
+                quantity: quantity,
+              },
+            })
+          }
+          
           className="bg-fuchsia-800 rounded-lg w-[100] "
         >
           <Text className="text-white px-3 py-3 font-medium text-center">
