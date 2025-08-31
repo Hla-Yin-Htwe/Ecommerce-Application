@@ -39,7 +39,7 @@ export default function Profile() {
         <MaterialIcons name="shopping-cart-checkout" size={20} color="black" />
         <Text>Orders</Text>
       </TouchableOpacity>
-      
+       
       <TouchableOpacity
         className="mt-3 mx-4 p-4 bg-white rounded-lg shadow-md flex-row items-center gap-2"
         onPress={() =>
@@ -74,7 +74,7 @@ export default function Profile() {
         <Text>Feedback</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        className="mt-5  p-4 bg-white rounded-lg shadow-md flex-row items-center"
+        className="mt-3  p-4 bg-white rounded-lg shadow-md flex-row items-center gap-2"
         onPress={handleLogout}
       >
         <MaterialIcons name="logout" size={20} color="red" />

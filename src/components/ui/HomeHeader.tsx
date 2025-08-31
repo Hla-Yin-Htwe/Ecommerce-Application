@@ -1,6 +1,6 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export const HomeHeader = () => {
   const router = useRouter();
@@ -12,12 +12,16 @@ export const HomeHeader = () => {
   return (
     <View className="p-4">
       <View className="flex flex-row items-center justify-between mb-4">
+        {/* <Image
+          style={{ width: "35%", height: "20%" }}
+          source={require("@/src/assets/images/logo.png")}
+          resizeMode="contain"
+          className="mx-auto mt-12"
+        /> */}
         <Text className="text-2xl text-fuchsia-800 font-semibold">
-          Shop with <Text className="font-bold text-black">X</Text>
+          Nova<Text className="font-bold text-black">Shop</Text>
         </Text>
-        <TouchableOpacity
-          onPress={() => router.push("/main/(tabs)/cart")}
-        >
+        <TouchableOpacity onPress={() => router.push("/main/(tabs)/cart")}>
           <FontAwesome name="shopping-cart" size={24} color="orange" />
         </TouchableOpacity>
       </View>

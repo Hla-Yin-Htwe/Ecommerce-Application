@@ -13,7 +13,7 @@ export default function Index() {
           resizeMode="cover"
           style={styles.image}>
             <View>
-              <Text className="text-3xl text-center text-fuchsia-800">Shop with X</Text>
+              <Text className="text-3xl text-center text-fuchsia-800">NovaShop</Text>
               <Text className="text-center text-gray-700 mb-3">One Stop solution for all your needs</Text>
             </View>
             <TouchableOpacity >

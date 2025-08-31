@@ -34,7 +34,7 @@ export default function TabLayout() {
       },
     })}>
       <Tabs.Screen name="home" options={{ title: 'Home' }} />
-      <Tabs.Screen name="explore" options={{ title: 'Explore' }} />
+      {/* <Tabs.Screen name="wish" options={{ title: 'Wishlist' }} /> */}
       <Tabs.Screen name="cart" options={{ title: 'Cart' }} />
       <Tabs.Screen name="notification" options={{ title: 'Notification' }} />
       <Tabs.Screen name="profile" options={{ title: 'Profile' }} />

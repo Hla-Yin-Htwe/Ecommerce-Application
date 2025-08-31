@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ecommerceApp",
-    "slug": "ecommerceApp",
+    "name": "NovaShop",
+    "slug": "novashop",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
@@ -10,15 +10,15 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.nanghlayinhtwe.ecommerceApp"
+      "bundleIdentifier": "com.nanghlayinhtwe.novashop"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.nanghlayinhtwe.ecommerceApp"
+      "package": "com.nanghlayinhtwe.novashop"
     },
     "web": {
       "bundler": "metro",
@@ -30,7 +30,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./src/assets/images/splash-icon.png",
+          "image": "./src/assets/images/logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
