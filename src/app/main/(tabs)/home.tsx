@@ -11,6 +11,7 @@ export default function HomeScreen() {
   const [isClick, setIsClick] = useState(false);
   const [favorites, setFavorites] = useState<number[]>([]); // track favorite items
   const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
   const selectedCategoryId = useCategoryStore(
     (state) => state.selectedCategoryId
   );
@@ -24,11 +25,23 @@ export default function HomeScreen() {
 
   const allProducts = [...localData.products, ...localData.saleProducts];
 
-  const filteredProducts = selectedCategoryId
-    ? allProducts.filter(
-        (product) => product.category?.id === selectedCategoryId
-      )
-    : allProducts;
+  // const filteredProducts = selectedCategoryId
+  //   ? allProducts.filter(
+  //       (product) => product.category?.id === selectedCategoryId
+  //     )
+  //   : allProducts;
+  // ✅ Filtering logic
+  const filteredProducts = allProducts.filter((product) => {
+    const matchesCategory = selectedCategoryId
+      ? product.category?.id === selectedCategoryId
+      : true;
+
+    const matchesSearch = product.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
 
   const toggleFavorite = (id: number) => {
     setFavorites((prev) =>

@@ -1,58 +1,40 @@
 import { BackWardButton } from "@/src/components/ui/BackWardButton";
-import {
-  AntDesign,
-  MaterialCommunityIcons
-} from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
-;
 import { useCart, CartItem } from "../../../hooks/CartContext";
 
 export default function Cart() {
-  const { cartItems, removeFromCart, incrementQuantity, decrementQuantity } =
-    useCart();
+  const { cartItems, removeFromCart, incrementQuantity, decrementQuantity } = useCart();
   const router = useRouter();
-  // const totalPrice = cartItems.reduce(
-  //   (total, item) => total + item.price * item.quantity,
-  //   0
-  // );
-  const [selectedItems, setSelectedItems] = useState<{ [id: string]: boolean }>(
-    {}
-  );
+
+  const [selectedItems, setSelectedItems] = useState<{ [id: string]: boolean }>({});
 
   const toggleCheckbox = (id: number) => {
-    setSelectedItems((prev) => ({
+    setSelectedItems(prev => ({
       ...prev,
       [id]: !prev[id],
     }));
   };
 
   const selectedTotal = cartItems.reduce((total, item) => {
-    if (selectedItems[item.id]) {
-      return total + item.price * item.quantity;
-    }
-    return total;
-  }, 0);
-  const selectedQuantity = cartItems.reduce((total, item) => {
-    if (selectedItems[item.id]) {
-      return total + item.quantity;
-    }
+    if (selectedItems[item.id]) return total + item.price * item.quantity;
     return total;
   }, 0);
 
-  // const totalQuantity = cartItems.reduce(
-  //   (total, item) => total + item.quantity,
-  //   0
-  // );
+  const selectedQuantity = cartItems.reduce((total, item) => {
+    if (selectedItems[item.id]) return total + item.quantity;
+    return total;
+  }, 0);
 
   const renderItem = ({ item }: { item: CartItem }) => (
     <View className="flex-row items-center justify-between gap-4 p-5 border-b border-gray-200">
       <Checkbox
         value={!!selectedItems[item.id]}
         onValueChange={() => toggleCheckbox(item.id)}
-        color={selectedItems[item.id] ? "#a21caf" : undefined} // fuchsia-800
+        color={selectedItems[item.id] ? "#a21caf" : undefined}
       />
       <TouchableOpacity
         className="flex-row items-center gap-4 flex-1"
@@ -62,10 +44,10 @@ export default function Cart() {
           source={{ uri: item.images[0] }}
           style={{ width: 60, height: 60, borderRadius: 8 }}
         />
-        <View className="flex 1">
+        <View className="flex-1">
           <Text className="text-lg font-medium">{item.title}</Text>
           <Text className="text-fuchsia-800">MMK {item.price}</Text>
-          <View className="flex-row items-center">
+          <View className="flex-row items-center mt-1">
             <TouchableOpacity onPress={() => decrementQuantity(item.id)}>
               <Text className="px-2">-</Text>
             </TouchableOpacity>
@@ -76,10 +58,7 @@ export default function Cart() {
           </View>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity
-        className="mt-5"
-        onPress={() => removeFromCart(item.id)}
-      >
+      <TouchableOpacity onPress={() => removeFromCart(item.id)}>
         <AntDesign name="delete" size={18} color="red" />
       </TouchableOpacity>
     </View>
@@ -89,58 +68,57 @@ export default function Cart() {
     <View className="flex-1 p-4">
       <BackWardButton title="My Cart" />
 
-      {/* <Text className="text-2xl font-bold mb-4">My Cart</Text> */}
       <FlatList
         data={cartItems}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         ListEmptyComponent={
           <View className="flex flex-col items-center justify-center h-full">
-            <MaterialCommunityIcons
-              name="cart-remove"
-              size={24}
-              color="black"
-            />
-            <Text className="text-center">There are no items in the cart</Text>
+            <MaterialCommunityIcons name="cart-remove" size={24} color="black" />
+            <Text className="text-center mt-2">There are no items in the cart</Text>
             <TouchableOpacity
               onPress={() => router.push("/main/(tabs)/home")}
-              className="bg-cyan-700  rounded-lg px-4 py-2 mt-3"
+              className="bg-cyan-700 rounded-lg px-4 py-2 mt-3"
             >
               <Text className="text-center text-white">Continue Shopping</Text>
             </TouchableOpacity>
           </View>
         }
       />
-      {cartItems.length > 0 && (
-        <View className="flex flex-row justify-center rounded-2xl mb-3 gap-3">
-          <Text className="text-gray-700 py-3 font-bold">
-            {" "}
-            Total: {selectedTotal} MMK
-          </Text>
-          <Text className="text-gray-700 py-3 font-bold">
-            {" "}
-            Total Items: {selectedQuantity}{" "}
-          </Text>
-          {/* <Text className='text-gray-700 px-3 py-3 font-bold'>MMK</Text> */}
 
+      {/* Selected Items Summary */}
+      {Object.values(selectedItems).some(Boolean) && (
+        <View className="bg-gray-200 rounded-xl p-4 mt-4">
+          <Text className="text-xl font-bold mb-2">Order Summary</Text>
+          <View className="flex flex-row justify-between mb-1">
+            <Text className="text-gray-700 font-medium">
+              Items Total ({selectedQuantity} items)
+            </Text>
+            <Text className="text-gray-700 font-medium">{selectedTotal} MMK</Text>
+          </View>
+          <View className="flex flex-row justify-between">
+            <Text className="text-gray-700 font-medium">Delivery Fee</Text>
+            <Text className="text-gray-700 font-medium">2000 MMK</Text>
+          </View>
+          <View className="border-t border-gray-400 my-2" />
+          <View className="flex flex-row justify-between">
+            <Text className="text-gray-700 font-bold">Total</Text>
+            <Text className="text-gray-700 font-bold">{selectedTotal + 2000} MMK</Text>
+          </View>
           <TouchableOpacity
             onPress={() => {
-              if (Object.values(selectedItems).filter(Boolean).length === 0)
-                return;
               router.push({
-                pathname: "/main/placeOrder/checkout",
+                pathname: "/main/placeOrder/payment",
                 params: {
-                  cart: JSON.stringify(selectedItems),
-                  total: selectedTotal.toString(),
+                  cart: JSON.stringify(cartItems.filter(item => selectedItems[item.id])),
+                  total: (selectedTotal + 2000).toString(),
                   quantity: selectedQuantity.toString(),
                 },
               });
             }}
-            className="bg-fuchsia-800 rounded-lg w-[100]"
+            className="bg-fuchsia-800 rounded-lg w-full mt-3 py-3"
           >
-            <Text className="text-white px-3 py-3 font-medium text-center">
-              Checkout
-            </Text>
+            <Text className="text-white text-center font-medium">Checkout</Text>
           </TouchableOpacity>
         </View>
       )}

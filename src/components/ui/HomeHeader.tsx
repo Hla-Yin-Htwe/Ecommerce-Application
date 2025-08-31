@@ -1,13 +1,13 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-export const HomeHeader = () => {
+export const HomeHeader = ( )=> {
   const router = useRouter();
 
-  const handleSearchPress = () => {
-    router.push("/main/(tabs)/explore");
-  };
+  // const handleSearchPress = () => {
+  //   router.push("/main/(tabs)/explore");
+  // };
 
   return (
     <View className="p-4">
@@ -25,15 +25,20 @@ export const HomeHeader = () => {
           <FontAwesome name="shopping-cart" size={24} color="orange" />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={handleSearchPress}
         className="border border-gray-300 rounded-md px-3 py-3 bg-white w-full"
-      >
-        <View className="flex flex-row items-center">
-          <Ionicons name="search" size={24} color="gray" />
-          <Text className="text-gray-500 ml-2">Search</Text>
+      > */}
+        <View className="flex-row items-center bg-gray-100 px-3 py-1 rounded-xl mt-4 border border-gray-400 rounded">
+          <Ionicons name="search" size={20} color="gray" />
+          <TextInput
+            className="flex-1 ml-2 text-base"
+            placeholder="Search products..."
+            // value={searchQuery}
+            // onChangeText={setSearchQuery}
+          />{" "}
         </View>
-      </TouchableOpacity>
+      {/* </TouchableOpacity> */}
     </View>
   );
 };

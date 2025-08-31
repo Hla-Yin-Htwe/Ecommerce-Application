@@ -21,7 +21,7 @@ export default function ProductDetail() {
   return (
     <View className="flex-1 px-4">
       <ScrollView className="flex-1 p-4">
-        <View className="flex-row items-center mb-4">
+        <View className="flex-row items-center mb-4 mr-5">
           <BackWardButton title="Product Details" />
           <TouchableOpacity
             className="flex justify-end mr-auto"
