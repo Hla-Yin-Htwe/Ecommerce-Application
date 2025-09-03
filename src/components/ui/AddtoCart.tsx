@@ -25,10 +25,12 @@ const AddtoCart = ({ product }: AddToCartProps) => {
     <View className="flex flex-row justify-center rounded-2xl mb-3 gap-3">
       <TouchableOpacity
         onPress={handleAddToCart}
-        className="bg-amber-400 rounded-lg flex-row"
+        className="bg-amber-500 rounded-lg flex-row items-center justify-center px-4 py-3 "
+        accessibilityLabel="Add item to cart"
+        // activeOpacity={0.8} // Slightly reduces opacity on press for feedback
       >
-        <FontAwesome name="shopping-cart" size={20} color="black" />
-        <Text className="text-white px-4 py-3 font-medium">Add to Cart</Text>
+        <FontAwesome name="shopping-cart" size={20} color="white" />
+        <Text className="text-white font-medium ml-2">Add to Cart</Text>
       </TouchableOpacity>
 
       <TouchableOpacity className="bg-amber-500 rounded-lg w-[100]">

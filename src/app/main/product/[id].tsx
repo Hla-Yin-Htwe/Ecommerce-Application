@@ -36,12 +36,14 @@ export default function ProductDetail() {
           style={{ width: "100%", height: 300, borderRadius: 10 }}
         />
         <Text className="text-2xl font-semibold mt-4">{product.title}</Text>
-        <Text className="text-lg text-fuchsia-800 mt-2">${product.price}</Text>
+        <Text className="text-lg text-fuchsia-800 mt-2">MMK {product.price}</Text>
         <Text className="text-base text-gray-600 mt-4">
           {product.description}
         </Text>
         <Text className="text-medium text-gray-800">Size: </Text>
         <Text>S </Text>
+        
+
       </ScrollView>
 
       <AddtoCart product={product} />

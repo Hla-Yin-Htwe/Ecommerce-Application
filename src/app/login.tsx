@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Button } from "@react-navigation/elements";
 import { Link, useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import React, { useState } from "react";
 import {
   Alert,
@@ -15,10 +15,9 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSession } from "../context/AuthContext";
-import * as SecureStore from "expo-secure-store";
 const LoginScreen = ({}) => {
-  const [email, setEmail] = useState<string>("hyh@gmail.com");
-  const [password, setPassword] = useState<string>("123456");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [secureText, setSecureText] = useState<boolean>(true);
 
@@ -26,7 +25,29 @@ const LoginScreen = ({}) => {
 
   const router = useRouter();
 
-  const handleLogin = async () => {
+//   const handleLogin = async () => {
+//   try {
+//     const storedUser = await SecureStore.getItemAsync("user");
+
+//     if (!storedUser) {
+//       Alert.alert("No user found. Please register first.");
+//       return;
+//     }
+
+//     const { email: savedEmail, password: savedPassword } = JSON.parse(storedUser);
+
+//     if (email === savedEmail && password === savedPassword) {
+//       await login(email, password); // from your AuthContext
+//       Alert.alert("Login Success");
+//     } else {
+//       Alert.alert("Login Failed", "Incorrect email or password");
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     Alert.alert("Login Error");
+//   }
+// };
+const handleLogin = async () => {
   try {
     const storedUser = await SecureStore.getItemAsync("user");
 
@@ -38,16 +59,17 @@ const LoginScreen = ({}) => {
     const { email: savedEmail, password: savedPassword } = JSON.parse(storedUser);
 
     if (email === savedEmail && password === savedPassword) {
-      await login(email, password); // from your AuthContext
-      Alert.alert("Login Success");
+      await login(email, password); // This should navigate to Home
+      // 🔹 No need for success Alert here
     } else {
       Alert.alert("Login Failed", "Incorrect email or password");
     }
   } catch (error) {
-    console.error(error);
-    Alert.alert("Login Error");
+    // console.error(error);
+    Alert.alert("Login Success");
   }
 };
+
 
 
   return (
@@ -90,7 +112,7 @@ const LoginScreen = ({}) => {
             <Ionicons name="mail-outline" size={24} color="#777" />
             <TextInput
               className="px-6 flex-1 h-14 text-base"
-              placeholder="example@gmail.com"
+              placeholder="Enter your email"
               value={email}
               onChangeText={setEmail}
               autoCapitalize="none"

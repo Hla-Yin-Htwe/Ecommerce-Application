@@ -1,11 +1,11 @@
 import { CategoriesSection } from "@/src/components/ui/CategoriesSection";
 import { HomeHeader } from "@/src/components/ui/HomeHeader";
-import { useRouter } from "expo-router";
-import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
-import { useState } from "react";
-import localData from "../../../data/db.json";
 import { useCategoryStore } from "@/src/store/useCategoryStore";
 import { AntDesign } from "@expo/vector-icons"; // import icons
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import localData from "../../../data/db.json";
 
 export default function HomeScreen() {
   const [isClick, setIsClick] = useState(false);
@@ -87,8 +87,14 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        <Text className="text-base text-gray-900 mt-2">{item.title}</Text>
-        <Text className="text-sm text-purple-900 mt-1">MMK {item.price}</Text>
+        <View style={{ flex: 1, margin: 8 }}>
+          <Text style={{ fontSize: 14, color: "#111", marginTop: 8 }}>
+            {item.title}
+          </Text>
+          <Text style={{ fontSize: 12, color: "#6b21a8", marginTop: 4 }}>
+            MMK {item.price}
+          </Text>
+        </View>
       </View>
     );
   };

@@ -18,7 +18,7 @@ export function CategoriesSection() {
           selectedCategoryId === item.id ? "bg-purple-400" : "bg-fuchsia-200"
         }`}
       >
-        <Text className="text-lg text-purple-950">{item.name}</Text>
+        <Text className="text-lg text-purple-950">{String(item.name)}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -1,5 +1,5 @@
-import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
   return (
@@ -14,9 +14,9 @@ export default function TabLayout() {
           case 'home':
             iconName = focused ? 'home' : 'home-outline';
             break;
-          case 'explore':
-            iconName = focused ? 'search' : 'search-outline';
-            break;
+          // case 'explore':
+          //   iconName = focused ? 'search' : 'search-outline';
+          //   break;
           case 'cart':
             iconName = focused ? 'cart' : 'cart-outline';
             break;
