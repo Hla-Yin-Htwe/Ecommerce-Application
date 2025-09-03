@@ -1,14 +1,13 @@
-import { Slot, Stack } from "expo-router";
-import React, {  useEffect } from "react";
+import { store } from "@/src/store/store";
+import { Slot, useRouter } from "expo-router";
+import React, { useEffect } from "react";
 import { ActivityIndicator, useColorScheme, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import Toast from 'react-native-toast-message';
+import { Provider } from "react-redux";
 import "../../global.css";
 import { AuthProvider, useSession } from "../context/AuthContext";
-import { useRouter } from "expo-router";
 import { CartProvider } from "../hooks/CartContext";
-import {store} from "@/src/store/store"
-import { Provider } from "react-redux";
-import Toast from 'react-native-toast-message'
 function LayoutWrapper() {
   const colorScheme = useColorScheme();
   const router = useRouter();
