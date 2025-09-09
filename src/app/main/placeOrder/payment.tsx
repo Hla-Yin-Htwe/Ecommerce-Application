@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useMemo } from "react";
 import { Text, TouchableOpacity, View, FlatList } from "react-native";
 import { CartItem } from "../../../hooks/CartContext";
+import * as Notifications from 'expo-notifications';
 
 export default function Payment() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function Payment() {
   }, [cart]);
 
   const grandTotal = total ? parseFloat(total as string) : 0;
-
+  
   const renderItem = ({ item }: { item: CartItem }) => (
     <View className="flex-row items-center justify-between py-2 border-b border-gray-300 px-2">
       <Text className="text-gray-700">{item.title} x {item.quantity}</Text>
@@ -26,11 +27,22 @@ export default function Payment() {
     </View>
   );
 
-  const handlePlaceOrder = () => {
-    // TODO: Implement actual payment logic
-    alert("Order placed successfully!");
-    router.replace("/main/(tabs)/home"); // Navigate back to home after payment
-  };
+  const handlePlaceOrder = async () => {
+  const currentDate = new Date().toLocaleString(); // ex: 9/9/2025, 3:45:12 PM
+
+  // Show local push notification
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Order Placed ✅",
+      body: `Your order has been placed successfully. ${currentDate}`,
+    },
+    trigger: null, // show immediately
+  });
+
+  // Navigate home after placing order
+  router.replace("/main/(tabs)/home");
+};
+
 
   return (
     <View className="flex-1 bg-stone-50 pt-8 px-4">

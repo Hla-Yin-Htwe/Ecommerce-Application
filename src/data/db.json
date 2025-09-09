@@ -596,15 +596,15 @@
   "notifications": [
     {
       "id": 1,
-      "title": "Order Placed",
-      "message": "Your order has been successfully placed.",
-      "timestamp": "3 hours ago"
+      "title": "Order Placed ✅",
+      "message": "Your order has been placed successfully.",
+      "timestamp": "9/9/2025, 10:30 AM"
     },
     {
       "id": 2,
       "title": "Payment Received",
       "message": "Your payment has been successfully received.",
-      "timestamp": "4 hours ago"
+      "timestamp": "9/9/2025, 11:00 AM"
     },
     {
       "id": 3,

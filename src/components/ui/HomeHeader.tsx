@@ -1,6 +1,6 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export const HomeHeader = ( )=> {
   const router = useRouter();
@@ -36,7 +36,7 @@ export const HomeHeader = ( )=> {
             placeholder="Search products..."
             // value={searchQuery}
             // onChangeText={setSearchQuery}
-          />{" "}
+          />
         </View>
       {/* </TouchableOpacity> */}
     </View>

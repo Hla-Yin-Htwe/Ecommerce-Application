@@ -90,7 +90,6 @@ const Checkout = () => {
 
       <View className="flex flex-row justify-center rounded-2xl  gap-3 mt-3 ">
         <TouchableOpacity
-          // onPress={() => router.push("/main/placeOrder/checkout")}
           onPress={() =>
             router.push({
               pathname: "/main/placeOrder/payment",
