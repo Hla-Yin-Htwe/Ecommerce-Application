@@ -1,13 +1,17 @@
+import { useCart } from "@/src/hooks/CartContext";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 interface BackWardButtonProp {
   title: string;
 }
 
+
 export const BackWardButton: React.FC<BackWardButtonProp> = ({ title }) => {
   const router = useRouter();
+    const { cartCount } = useCart();
+  
   return (
     <View className="py-3 pl-2 w-full mb-3 bg-gray-100 flex-row items-center ">
       <TouchableOpacity

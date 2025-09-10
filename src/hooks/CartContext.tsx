@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { ProductType } from '@/src/types/type';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 
 // Cart item includes quantity
 export type CartItem = ProductType & { quantity: number };
@@ -11,6 +11,7 @@ type CartContextType = {
   removeFromCart: (id: number) => void;
   incrementQuantity: (id: number) => void;
   decrementQuantity: (id: number) => void;
+  cartCount: number;
 };
 
 // Create context
@@ -77,10 +78,10 @@ const decrementQuantity = (id: number) => {
   const removeFromCart = (id: number) => {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
-
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   return (
     <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, incrementQuantity,
-    decrementQuantity }}>
+    decrementQuantity, cartCount}}>
       {children}
     </CartContext.Provider>
   );

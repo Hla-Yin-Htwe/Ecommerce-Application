@@ -4,9 +4,12 @@ import localData from "../../../data/db.json";
 import { BackWardButton } from "@/src/components/ui/BackWardButton";
 import AddtoCart from "@/src/components/ui/AddtoCart";
 import { FontAwesome } from "@expo/vector-icons";
+import { useCart } from "@/src/hooks/CartContext";
 
 export default function ProductDetail() {
   const { id } = useLocalSearchParams();
+    const { cartCount } = useCart();
+  
 
   const product = localData.products.find((item) => item.id.toString() === id);
 
@@ -28,6 +31,12 @@ export default function ProductDetail() {
             onPress={() => router.push("/main/(tabs)/cart")}
           >
             <FontAwesome name="shopping-cart" size={24} color="orange" />
+              {cartCount > 0 && (
+          <View className="absolute -top-2 -right-2 bg-red-600 rounded-full w-5 h-5 justify-center items-center">
+            <Text className="text-white text-xs font-bold">{cartCount}</Text>
+          </View>
+        )}
+
           </TouchableOpacity>
         </View>
 
