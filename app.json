@@ -19,6 +19,9 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.nanghlayinhtwe.ecommerceApp"
+
+
+
     },
     "web": {
       "bundler": "metro",
@@ -36,7 +39,9 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+       "expo-maps"
+      
     ],
     "experiments": {
       "typedRoutes": true

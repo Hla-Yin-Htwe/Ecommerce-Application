@@ -1,13 +1,15 @@
 import { BackWardButton } from "@/src/components/ui/BackWardButton";
 import NotificationListCard from "@/src/components/ui/NotificationListCard";
 // import { PageLoadingModal } from "@/src/components/ui/PageLoadingModal";
-import React, { useState, useEffect } from "react";
-import { ScrollView, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import localData from "../../../data/db.json";
+import { useRouter } from "expo-router";
 
 const NotificationScreen = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [pageLoading, setPageLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   useEffect(() => {
     // Simulate fetching from db.json
@@ -30,11 +32,22 @@ const NotificationScreen = () => {
         {notifications.map((notification) => (
           <NotificationListCard
             key={notification.id}
-            title={notification.title}        
-            message={notification.message}    
+            title={notification.title}
+            message={notification.message}
             timestamp={notification.timestamp}
           />
         ))}
+
+        <TouchableOpacity
+          onPress={() => {
+            router.push({
+              pathname: "/main/filesSystem/fileSystem",
+            });
+          }}
+          className="bg-[#a21caf] rounded-[15px] mt-4 mx-10 w-[85%] p-4 flex-row items-center justify-center mb-5"
+        >
+          <Text className="text-white font-semibold text-lg">File System</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

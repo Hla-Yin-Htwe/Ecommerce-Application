@@ -1,14 +1,20 @@
 import { BackWardButton } from "@/src/components/ui/BackWardButton";
 import { useSession } from "@/src/context/AuthContext";
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
+  Dimensions,
+  FlatList,
+  Image,
   Text,
   TouchableOpacity,
   View,
-  FlatList,
-  Dimensions,
 } from "react-native";
 
 export default function Profile() {
@@ -19,6 +25,7 @@ export default function Profile() {
     await logout();
     router.replace("/login");
   };
+  const [profileImage, setImage] = React.useState<string | null>(null);
 
   const options = [
     {
@@ -41,7 +48,6 @@ export default function Profile() {
       icon: <MaterialIcons name="policy" size={24} />,
       onPress: () => router.push("/main/(tabs)/home"),
     },
-
   ];
   const perks = [
     {
@@ -71,7 +77,7 @@ export default function Profile() {
   ];
 
   const numColumns = 2;
-  const cardWidth = (Dimensions.get("window").width - 48) / 2; // padding + gap
+  const cardWidth = (Dimensions.get("window").width - 48) / 2;
 
   const renderItem = ({ item }: any) => (
     <TouchableOpacity
@@ -84,24 +90,53 @@ export default function Profile() {
     </TouchableOpacity>
   );
 
-const renderPerkItem = ({ item, onPress }: any) => (
-  <TouchableOpacity
-    onPress={onPress}
-    className="flex-row items-center justify-between border-b border-gray-300 py-4 ml-4 mr-4"
-  >
-    <View className="flex-row items-center">
-      {item.icon}
-      <Text className="ml-4 text-base font-medium">{item.title}</Text>
-    </View>
-    <Ionicons name="chevron-forward" size={18} color="gray" />
-  </TouchableOpacity>
-);
+  const renderPerkItem = ({ item, onPress }: any) => (
+    <TouchableOpacity
+      onPress={onPress}
+      className="flex-row items-center justify-between border-b border-gray-300 py-4 ml-4 mr-4"
+    >
+      <View className="flex-row items-center">
+        {item.icon}
+        <Text className="ml-4 text-base font-medium">{item.title}</Text>
+      </View>
+      <Ionicons name="chevron-forward" size={18} color="gray" />
+    </TouchableOpacity>
+  );
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images", "videos"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
   return (
     <View className="flex-1 bg-stone-50 pt-8">
-            <BackWardButton title="Profile" />
-      
+      <BackWardButton title="Profile" />
+
       {/* User Name */}
-      <View className="px-6 mb-6">
+      <View className="px-6 mb-6 items-center">
+        {/* Profile Image */}
+        <TouchableOpacity onPress={pickImage}>
+          <Image
+            source={
+              profileImage
+                ? { uri: profileImage }
+                : require("@/src/assets/images/profile.jpg")
+            }
+            className="w-24 h-24 rounded-full mb-4"
+          />
+        </TouchableOpacity>
+
         <Text className="text-3xl font-bold text-gray-800">
           {userToken || "User"}
         </Text>
@@ -118,8 +153,8 @@ const renderPerkItem = ({ item, onPress }: any) => (
         contentContainerStyle={{ paddingHorizontal: 8 }}
       />
 
-      <View className=" mb-40 bg-gray-100 rounded">
-        <Text className="text-xl font-bold text-gray-800 mt-3 ml-3">
+      <View className=" mt-7 bg-gray rounded">
+        <Text className="text-xl font-bold text-gray-800  ml-3">
           Perks for you
         </Text>
         <FlatList
@@ -128,7 +163,6 @@ const renderPerkItem = ({ item, onPress }: any) => (
           keyExtractor={(item) => item.title}
         />
       </View>
-   
 
       <TouchableOpacity
         onPress={handleLogout}

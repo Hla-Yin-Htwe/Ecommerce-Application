@@ -59,13 +59,12 @@ const handleLogin = async () => {
     const { email: savedEmail, password: savedPassword } = JSON.parse(storedUser);
 
     if (email === savedEmail && password === savedPassword) {
-      await login(email, password); // This should navigate to Home
-      // 🔹 No need for success Alert here
+      await login(email, password); 
     } else {
       Alert.alert("Login Failed", "Incorrect email or password");
     }
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     Alert.alert("Login Success");
   }
 };

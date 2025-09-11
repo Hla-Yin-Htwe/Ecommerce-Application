@@ -116,6 +116,8 @@ async function registerForPushNotificationsAsync() {
       <Stack.Screen name="product/[id]" options={{headerShown: false}}  />
       <Stack.Screen name="placeOrder/checkout" options={{ headerShown: false }} />
       <Stack.Screen name="placeOrder/payment" options={{headerShown:false}}/>
+      <Stack.Screen name="filesSystem/fileSystem" options={{headerShown:false}}/>
+
     </Stack>
     
   );

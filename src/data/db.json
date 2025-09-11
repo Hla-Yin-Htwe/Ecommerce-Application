@@ -596,7 +596,7 @@
   "notifications": [
     {
       "id": 1,
-      "title": "Order Placed ✅",
+      "title": "Order Placed ",
       "message": "Your order has been placed successfully.",
       "timestamp": "9/9/2025, 10:30 AM"
     },
