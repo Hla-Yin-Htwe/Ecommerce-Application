@@ -9,7 +9,7 @@ interface BackWardButtonProp {
 export const BackWardButton: React.FC<BackWardButtonProp> = ({ title }) => {
   const router = useRouter();
   return (
-    <View className="py-3 pl-2 w-full mb-3 bg-gray-100 flex-row items-center ">
+    <View className="py-3 pl-2 w-full mb-3 bg-white flex-row items-center ">
       <TouchableOpacity
         onPress={() => router.back()}
         className="flex flex-row items-center gap-4"

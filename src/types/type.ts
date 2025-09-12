@@ -20,3 +20,20 @@ export interface CategoryType{
     image: string;
 }
 
+export interface DropdownType {
+    label: string;
+    value: string;
+    code: string;
+    level?: number;
+    description?: string;
+}
+export interface CustomDropdownType {
+    label: string;
+    value: string;
+    data: DropdownType[];
+    onChange: (item: any) => void;
+    resetValue: () => void;
+    search?: boolean;
+    disable?: boolean;
+    startValue?: boolean;
+}

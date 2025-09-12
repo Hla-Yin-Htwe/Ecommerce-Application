@@ -46,7 +46,7 @@ export default function Profile() {
     {
       title: "Policies",
       icon: <MaterialIcons name="policy" size={24} />,
-      onPress: () => router.push("/main/(tabs)/home"),
+      onPress: () => router.push("/main/profile/policy"),
     },
   ];
   const perks = [
