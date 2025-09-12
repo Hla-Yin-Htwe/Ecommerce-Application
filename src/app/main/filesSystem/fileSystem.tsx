@@ -1,118 +1,154 @@
-import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, Platform } from "react-native";
-import * as FileSystem from "expo-file-system";
 import { BackWardButton } from "@/src/components/ui/BackWardButton";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
+import React, { useState } from "react";
+import {
+  Button,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function App() {
-  const [progress, setProgress] = useState(0);
-  const [savedPath, setSavedPath] = useState(null);
+  const [frontId, setFrontId] = useState<string | null>(null);
+  const [backId, setBackId] = useState<string | null>(null);
 
-  const FILE_URL =
-    "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
-  const FILE_NAME = "dummy.pdf";
+  // Pick from gallery
+  const pickImage = async (setImage: (uri: string) => void) => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-  // Progress callback
-  const progressCallback = (downloadProgress) => {
-    const pct =
-      downloadProgress.totalBytesWritten /
-      downloadProgress.totalBytesExpectedToWrite;
-    setProgress(pct);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
   };
 
-  const downloadToDownloadsFolder = async () => {
-    try {
-      // Step 1: Ask Android for permission to access Downloads folder
-      const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+  // Take with camera
+  const takeWithCamera = async (setImage: (uri: string) => void) => {
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-      if (!permissions.granted) {
-        alert("Permission denied. Cannot save file.");
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const saveImage = async (uri: string, filename: string) => {
+    try {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("Permission required", "Allow access to save images!");
         return;
       }
 
-      // Step 2: Download file into app cache
-      const tempUri = FileSystem.cacheDirectory + FILE_NAME;
+      const asset = await MediaLibrary.createAssetAsync(uri);
+      let album = await MediaLibrary.getAlbumAsync("Download");
+      if (!album) {
+        album = await MediaLibrary.createAlbumAsync("Download", asset, false);
+      } else {
+        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+      }
 
-      const downloadResumable = FileSystem.createDownloadResumable(
-        FILE_URL,
-        tempUri,
-        {},
-        progressCallback
-      );
-
-      const { uri } = await downloadResumable.downloadAsync();
-      console.log("Downloaded to cache:", uri);
-
-      // Step 3: Create file in Downloads folder
-      const base64 = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-
-      const newUri = await FileSystem.StorageAccessFramework.createFileAsync(
-        permissions.directoryUri,
-        FILE_NAME,
-        "application/pdf"
-      );
-
-      // Step 4: Write the file to Downloads
-      await FileSystem.writeAsStringAsync(newUri, base64, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-
-      setSavedPath(newUri);
-      console.log("Saved to:", newUri);
-      alert("✅ File saved to Downloads!");
-    } catch (e) {
-      console.error("Download error:", e);
+      Alert.alert("Successfully", `${filename} saved!`);
+    } catch (error) {
+      console.error("Error saving image:", error);
+      Alert.alert("Error", "Failed to save image");
     }
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-stone-50 dark:bg-black">
       <BackWardButton title="File System" />
-      <Text style={styles.title}>📥 Save File to Downloads (Android)</Text>
 
-      <Button title="Download & Save" onPress={downloadToDownloadsFolder} />
-
-      <Text style={styles.info}>
-        Progress: {(progress * 100).toFixed(2)}%
-      </Text>
-
-      {savedPath && (
-        <Text style={styles.success}>
-          ✅ File saved at: {"\n"} {savedPath}
+      {/* Front ID */}
+      <View className="px-6 mb-6 items-center">
+        <Text className="text-2xl font-bold text-gray-800 mb-4">
+          Upload Front ID
         </Text>
-      )}
 
-      {Platform.OS === "ios" && (
-        <Text style={{ color: "red", marginTop: 20 }}>
-          ⚠ This method only works on Android.  
-          For iOS, use expo-sharing.
+        {/* Image Preview */}
+        <TouchableOpacity onPress={() => pickImage(setFrontId)}>
+          <Image
+            source={
+              frontId
+                ? { uri: frontId }
+                : require("@/src/assets/images/coffeeCup.jpg")
+            }
+            className="w-64 h-40 mb-4 rounded-lg"
+          />
+        </TouchableOpacity>
+
+        {/* Take with Camera Button */}
+        <TouchableOpacity
+          onPress={() => takeWithCamera(setFrontId)}
+          className="flex-row items-center space-x-2 mt-2 bg-blue-500 px-4 py-2 rounded-xl"
+        >
+          <Ionicons name="camera-outline" size={20} color="white" />
+          <Text className="text-white text-lg font-medium">
+            Take with Camera
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Back ID */}
+      <View className="px-6 mb-6 items-center">
+        <Text className="text-2xl font-bold text-gray-800 mb-4">
+          Upload Back ID
         </Text>
-      )}
+
+        {/* Image Preview */}
+        <TouchableOpacity onPress={() => pickImage(setBackId)}>
+          <Image
+            source={
+              backId
+                ? { uri: backId }
+                : require("@/src/assets/images/coffeeCup.jpg")
+            }
+            className="w-64 h-40 mb-4 rounded-lg"
+          />
+        </TouchableOpacity>
+
+        {/* Take with Camera Button */}
+        <TouchableOpacity
+          onPress={() => takeWithCamera(setBackId)}
+          className="flex-row items-center space-x-2 mt-2 bg-blue-500 px-4 py-2 rounded-xl"
+        >
+          <Ionicons name="camera-outline" size={20} color="white" />
+          <Text className="text-white text-lg font-medium">
+            Take with Camera
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Save Button */}
+      <TouchableOpacity
+        onPress={() => {
+          if (frontId) saveImage(frontId, "front_id.jpg");
+          if (backId) saveImage(backId, "back_id.jpg");
+        }}
+        className="mx-6 mt-4 bg-indigo-600 py-3 rounded-2xl flex-row items-center justify-center shadow-md active:bg-indigo-700"
+      >
+        {/* <Ionicons
+          name="download-outline"
+          size={22}
+          color="white"
+          className="mr-2"
+        /> */}
+        <Text className="text-white text-lg font-semibold">
+          Save Both Images
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  info: {
-    marginTop: 20,
-    fontSize: 16,
-  },
-  success: {
-    marginTop: 10,
-    fontSize: 14,
-    color: "green",
-    textAlign: "center",
-  },
-});
