@@ -31,7 +31,7 @@ export default function Profile() {
     {
       title: "Orders",
       icon: <MaterialIcons name="shopping-cart-checkout" size={24} />,
-      onPress: () => router.push("/main/(tabs)/home"),
+      onPress: () => router.push("/main/profile/order"),
     },
     {
       title: "Favourites",

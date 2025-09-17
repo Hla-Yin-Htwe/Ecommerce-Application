@@ -104,7 +104,7 @@ const Checkout = () => {
           className="bg-fuchsia-800 rounded-lg w-[100] "
         >
           <Text className="text-white px-3 py-3 font-medium text-center">
-            Place Order
+           Checkout
           </Text>
         </TouchableOpacity>
       </View>

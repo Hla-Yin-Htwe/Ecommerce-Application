@@ -1,3 +1,4 @@
+import { useCart } from "@/src/hooks/CartContext";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -8,6 +9,8 @@ export const HomeHeader = ( )=> {
   // const handleSearchPress = () => {
   //   router.push("/main/(tabs)/explore");
   // };
+  const {cartItems} =useCart();
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <View className="p-4">
@@ -23,6 +26,11 @@ export const HomeHeader = ( )=> {
         </Text>
         <TouchableOpacity onPress={() => router.push("/main/(tabs)/cart")}>
           <FontAwesome name="shopping-cart" size={24} color="orange" />
+          {cartCount > 0 && (
+          <View className="absolute -top-2 -right-2 bg-red-600 rounded-full px-2">
+            <Text className="text-white text-xs">{cartCount}</Text>
+          </View>
+        )}
         </TouchableOpacity>
       </View>
       {/* <TouchableOpacity
