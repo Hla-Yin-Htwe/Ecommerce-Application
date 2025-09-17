@@ -14,11 +14,21 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function App() {
+  // Inside your ChildRegistration component
+
+  // State for Front and Back ID
   const [frontId, setFrontId] = useState<string | null>(null);
   const [backId, setBackId] = useState<string | null>(null);
+  const [imageUri, setImageUri] = useState<string | null>(null);
 
-  // Pick from gallery
+  // Pick image from gallery
   const pickImage = async (setImage: (uri: string) => void) => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permission required", "We need access to your photos!");
+      return;
+    }
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -31,8 +41,14 @@ export default function App() {
     }
   };
 
-  // Take with camera
+  // Take photo with camera
   const takeWithCamera = async (setImage: (uri: string) => void) => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permission required", "We need access to your camera!");
+      return;
+    }
+
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [4, 3],
@@ -44,6 +60,7 @@ export default function App() {
     }
   };
 
+  // Save image to Media Library
   const saveImage = async (uri: string, filename: string) => {
     try {
       const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -66,6 +83,47 @@ export default function App() {
       Alert.alert("Error", "Failed to save image");
     }
   };
+  const handleSave = async () => {
+  console.log("Front ID:", frontId);
+  console.log("Back ID:", backId);
+
+  if (!frontId || !backId) {
+    Alert.alert("Error", "Please select both front and back images");
+    return;
+  }
+
+  const formData = new FormData();
+
+  formData.append("frontId", {
+    uri: frontId,
+    type: "image/jpeg",
+    name: "front_id.jpg",
+  } as any);
+
+  formData.append("backId", {
+    uri: backId,
+    type: "image/jpeg",
+    name: "back_id.jpg",
+  } as any);
+
+  try {
+    const response = await fetch("http://BACKEND_URL/upload", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    const result = await response.json();
+    console.log("Server response:", result);
+    Alert.alert("Success", "Images uploaded successfully!");
+  } catch (error) {
+    console.error("Upload failed:", error);
+    Alert.alert("Error", "Failed to upload images");
+  }
+};
+
 
   return (
     <View className="flex-1 bg-stone-50 dark:bg-black">
@@ -76,29 +134,30 @@ export default function App() {
         <Text className="text-2xl font-bold text-gray-800 mb-4">
           Upload Front ID
         </Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          {/* Image Preview */}
+          <TouchableOpacity onPress={() => pickImage(setFrontId)}>
+            <Image
+              source={
+                frontId
+                  ? { uri: frontId }
+                  : require("@/src/assets/images/coffeeCup.jpg")
+              }
+              className="w-64 h-40 mb-4 rounded-lg"
+            />
+          </TouchableOpacity>
 
-        {/* Image Preview */}
-        <TouchableOpacity onPress={() => pickImage(setFrontId)}>
-          <Image
-            source={
-              frontId
-                ? { uri: frontId }
-                : require("@/src/assets/images/coffeeCup.jpg")
-            }
-            className="w-64 h-40 mb-4 rounded-lg"
-          />
-        </TouchableOpacity>
-
-        {/* Take with Camera Button */}
-        <TouchableOpacity
-          onPress={() => takeWithCamera(setFrontId)}
-          className="flex-row items-center space-x-2 mt-2 bg-blue-500 px-4 py-2 rounded-xl"
-        >
-          <Ionicons name="camera-outline" size={20} color="white" />
-          <Text className="text-white text-lg font-medium">
-            Take with Camera
-          </Text>
-        </TouchableOpacity>
+          {/* Take with Camera Button */}
+          <TouchableOpacity
+            onPress={() => takeWithCamera(setFrontId)}
+            className="flex-row items-center space-x-2 mt-2  px-4 py-2 rounded-xl"
+          >
+            <Ionicons name="camera-outline" size={20} color="black" />
+            <Text className="text-black text-lg font-medium">
+              Take with Camera
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Back ID */}
@@ -106,29 +165,30 @@ export default function App() {
         <Text className="text-2xl font-bold text-gray-800 mb-4">
           Upload Back ID
         </Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          {/* Image Preview */}
+          <TouchableOpacity onPress={() => pickImage(setBackId)}>
+            <Image
+              source={
+                backId
+                  ? { uri: backId }
+                  : require("@/src/assets/images/coffeeCup.jpg")
+              }
+              className="w-64 h-40 mb-4 rounded-lg"
+            />
+          </TouchableOpacity>
 
-        {/* Image Preview */}
-        <TouchableOpacity onPress={() => pickImage(setBackId)}>
-          <Image
-            source={
-              backId
-                ? { uri: backId }
-                : require("@/src/assets/images/coffeeCup.jpg")
-            }
-            className="w-64 h-40 mb-4 rounded-lg"
-          />
-        </TouchableOpacity>
-
-        {/* Take with Camera Button */}
-        <TouchableOpacity
-          onPress={() => takeWithCamera(setBackId)}
-          className="flex-row items-center space-x-2 mt-2 bg-blue-500 px-4 py-2 rounded-xl"
-        >
-          <Ionicons name="camera-outline" size={20} color="white" />
-          <Text className="text-white text-lg font-medium">
-            Take with Camera
-          </Text>
-        </TouchableOpacity>
+          {/* Take with Camera Button */}
+          <TouchableOpacity
+            onPress={() => takeWithCamera(setBackId)}
+            className="flex-row items-center space-x-2 mt-2  px-4 py-2 rounded-xl"
+          >
+            <Ionicons name="camera-outline" size={20} color="black" />
+            <Text className="text-black text-lg font-medium">
+              Take with Camera
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Save Button */}
@@ -139,16 +199,41 @@ export default function App() {
         }}
         className="mx-6 mt-4 bg-indigo-600 py-3 rounded-2xl flex-row items-center justify-center shadow-md active:bg-indigo-700"
       >
-        {/* <Ionicons
+        <Ionicons
           name="download-outline"
           size={22}
           color="white"
           className="mr-2"
-        /> */}
-        <Text className="text-white text-lg font-semibold">
-          Save Both Images
-        </Text>
+        />
+        <Text className="text-white text-lg font-semibold">Save to Gallery</Text>
+        
       </TouchableOpacity>
+      <View style={{ margin: 20 }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#fff",
+            padding: 12,
+            borderRadius: 30,
+            alignItems: "center",
+            width: "40%",
+            alignSelf: "center",
+            elevation: 3,
+            marginBottom: 30,
+          }}
+          onPress={handleSave}
+        >
+          <Text
+            style={{
+              color: "#1CABE2",
+              fontSize: 20,
+              fontWeight: "bold",
+              lineHeight: 35,
+            }}
+          >
+            {"Save"}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
